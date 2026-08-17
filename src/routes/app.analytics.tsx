@@ -103,3 +103,13 @@ function AnalyticsPage() {
     </AppShell>
   );
 }
+
+function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
+  return (
+    <div className="glass-surface rounded-lg p-5 transition-colors hover:border-border-strong sm:p-6">
+      <p className="text-xs font-medium tracking-wide text-muted-foreground">{label}</p>
+      <p className="num mt-2 text-metric-xl">{value}</p>
+      {hint && <p className="mt-2 text-xs text-subtle-foreground">{hint}</p>}
+    </div>
+  );
+}
