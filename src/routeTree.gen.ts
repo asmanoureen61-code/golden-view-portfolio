@@ -16,6 +16,7 @@ import { Route as AppAlertsRouteImport } from './routes/app.alerts'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppTransactionsRouteImport } from './routes/app.transactions'
+import { Route as AppUpgradeRouteImport } from './routes/app.upgrade'
 import { Route as AppWatchlistRouteImport } from './routes/app.watchlist'
 import { Route as AppHoldingsSymbolRouteImport } from './routes/app.holdings.$symbol'
 import { Route as AppPortfolioIndexRouteImport } from './routes/app.portfolio.index'
@@ -56,6 +57,11 @@ const AppTransactionsRoute = AppTransactionsRouteImport.update({
   path: '/transactions',
   getParentRoute: () => AppRoute,
 } as any)
+const AppUpgradeRoute = AppUpgradeRouteImport.update({
+  id: '/upgrade',
+  path: '/upgrade',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppWatchlistRoute = AppWatchlistRouteImport.update({
   id: '/watchlist',
   path: '/watchlist',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/transactions': typeof AppTransactionsRoute
+  '/app/upgrade': typeof AppUpgradeRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
   '/app/holdings/$symbol': typeof AppHoldingsSymbolRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/transactions': typeof AppTransactionsRoute
+  '/app/upgrade': typeof AppUpgradeRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app': typeof AppIndexRoute
   '/app/holdings/$symbol': typeof AppHoldingsSymbolRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/transactions': typeof AppTransactionsRoute
+  '/app/upgrade': typeof AppUpgradeRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
   '/app/holdings/$symbol': typeof AppHoldingsSymbolRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/settings'
     | '/app/transactions'
+    | '/app/upgrade'
     | '/app/watchlist'
     | '/app/'
     | '/app/holdings/$symbol'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/settings'
     | '/app/transactions'
+    | '/app/upgrade'
     | '/app/watchlist'
     | '/app'
     | '/app/holdings/$symbol'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/settings'
     | '/app/transactions'
+    | '/app/upgrade'
     | '/app/watchlist'
     | '/app/'
     | '/app/holdings/$symbol'
@@ -213,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTransactionsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/upgrade': {
+      id: '/app/upgrade'
+      path: '/upgrade'
+      fullPath: '/app/upgrade'
+      preLoaderRoute: typeof AppUpgradeRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/watchlist': {
       id: '/app/watchlist'
       path: '/watchlist'
@@ -249,6 +268,7 @@ interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppTransactionsRoute: typeof AppTransactionsRoute
+  AppUpgradeRoute: typeof AppUpgradeRoute
   AppWatchlistRoute: typeof AppWatchlistRoute
   AppIndexRoute: typeof AppIndexRoute
   AppHoldingsSymbolRoute: typeof AppHoldingsSymbolRoute
@@ -261,6 +281,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppTransactionsRoute: AppTransactionsRoute,
+  AppUpgradeRoute: AppUpgradeRoute,
   AppWatchlistRoute: AppWatchlistRoute,
   AppIndexRoute: AppIndexRoute,
   AppHoldingsSymbolRoute: AppHoldingsSymbolRoute,
