@@ -44,17 +44,17 @@ function AnalyticsPage() {
   return (
     <AppShell title="Analytics" description="Exposure, concentration and contribution">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Portfolio value" value={formatCurrency(totals.marketValue)} />
-        <MetricCard
+        <MetricCard label="Portfolio value" value={totals.marketValue} />
+        <StatCard
           label="Top 3 concentration"
           value={formatPercent(concentration)}
           hint="Share of value in your three largest positions"
         />
-        <MetricCard label="Sectors held" value={String(sectorCount)} hint="Diversification breadth" />
-        <MetricCard
+        <StatCard label="Sectors held" value={String(sectorCount)} hint="Diversification breadth" />
+        <StatCard
           label="Largest position"
           value={largest ? largest.symbol : "—"}
-          hint={largest ? `${formatPercent(largest.allocation)} of portfolio` : undefined}
+          hint={largest ? `${formatPercent(largest.allocation)} of portfolio` : "No holdings yet"}
         />
       </div>
 
