@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppAlertsRouteImport } from './routes/app.alerts'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppTransactionsRouteImport } from './routes/app.transactions'
 import { Route as AppWatchlistRouteImport } from './routes/app.watchlist'
 import { Route as AppHoldingsSymbolRouteImport } from './routes/app.holdings.$symbol'
@@ -43,6 +44,11 @@ const AppAlertsRoute = AppAlertsRouteImport.update({
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
 const AppTransactionsRoute = AppTransactionsRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/app/alerts': typeof AppAlertsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/transactions': typeof AppTransactionsRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/transactions': typeof AppTransactionsRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app': typeof AppIndexRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/app/alerts': typeof AppAlertsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/transactions': typeof AppTransactionsRoute
   '/app/watchlist': typeof AppWatchlistRoute
   '/app/': typeof AppIndexRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/alerts'
     | '/app/analytics'
+    | '/app/settings'
     | '/app/transactions'
     | '/app/watchlist'
     | '/app/'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app/alerts'
     | '/app/analytics'
+    | '/app/settings'
     | '/app/transactions'
     | '/app/watchlist'
     | '/app'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/alerts'
     | '/app/analytics'
+    | '/app/settings'
     | '/app/transactions'
     | '/app/watchlist'
     | '/app/'
@@ -187,6 +199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/transactions': {
       id: '/app/transactions'
       path: '/transactions'
@@ -228,6 +247,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAlertsRoute: typeof AppAlertsRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTransactionsRoute: typeof AppTransactionsRoute
   AppWatchlistRoute: typeof AppWatchlistRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -239,6 +259,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAlertsRoute: AppAlertsRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTransactionsRoute: AppTransactionsRoute,
   AppWatchlistRoute: AppWatchlistRoute,
   AppIndexRoute: AppIndexRoute,
