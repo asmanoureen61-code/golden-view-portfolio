@@ -44,17 +44,17 @@ function AnalyticsPage() {
   return (
     <AppShell title="Analytics" description="Exposure, concentration and contribution">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Portfolio value" value={formatCurrency(totals.marketValue)} />
-        <MetricCard
+        <MetricCard label="Portfolio value" value={totals.marketValue} />
+        <StatCard
           label="Top 3 concentration"
           value={formatPercent(concentration)}
           hint="Share of value in your three largest positions"
         />
-        <MetricCard label="Sectors held" value={String(sectorCount)} hint="Diversification breadth" />
-        <MetricCard
+        <StatCard label="Sectors held" value={String(sectorCount)} hint="Diversification breadth" />
+        <StatCard
           label="Largest position"
           value={largest ? largest.symbol : "—"}
-          hint={largest ? `${formatPercent(largest.allocation)} of portfolio` : undefined}
+          hint={largest ? `${formatPercent(largest.allocation)} of portfolio` : "No holdings yet"}
         />
       </div>
 
@@ -101,5 +101,15 @@ function AnalyticsPage() {
         </ul>
       </SectionCard>
     </AppShell>
+  );
+}
+
+function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
+  return (
+    <div className="glass-surface rounded-lg p-5 transition-colors hover:border-border-strong sm:p-6">
+      <p className="text-xs font-medium tracking-wide text-muted-foreground">{label}</p>
+      <p className="num mt-2 text-metric-xl">{value}</p>
+      {hint && <p className="mt-2 text-xs text-subtle-foreground">{hint}</p>}
+    </div>
   );
 }
