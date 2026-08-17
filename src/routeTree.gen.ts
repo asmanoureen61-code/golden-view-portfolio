@@ -10,33 +10,75 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppPortfolioIndexRouteImport } from './routes/app.portfolio.index'
+import { Route as AppPortfolioAddRouteImport } from './routes/app.portfolio.add'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortfolioIndexRoute = AppPortfolioIndexRouteImport.update({
+  id: '/portfolio/',
+  path: '/portfolio/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortfolioAddRoute = AppPortfolioAddRouteImport.update({
+  id: '/portfolio/add',
+  path: '/portfolio/add',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/app/': typeof AppIndexRoute
+  '/app/portfolio/add': typeof AppPortfolioAddRoute
+  '/app/portfolio/': typeof AppPortfolioIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppIndexRoute
+  '/app/portfolio/add': typeof AppPortfolioAddRoute
+  '/app/portfolio': typeof AppPortfolioIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/app/': typeof AppIndexRoute
+  '/app/portfolio/add': typeof AppPortfolioAddRoute
+  '/app/portfolio/': typeof AppPortfolioIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/app' | '/app/' | '/app/portfolio/add' | '/app/portfolio/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/app' | '/app/portfolio/add' | '/app/portfolio'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/app/'
+    | '/app/portfolio/add'
+    | '/app/portfolio/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +90,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portfolio/': {
+      id: '/app/portfolio/'
+      path: '/portfolio'
+      fullPath: '/app/portfolio/'
+      preLoaderRoute: typeof AppPortfolioIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portfolio/add': {
+      id: '/app/portfolio/add'
+      path: '/portfolio/add'
+      fullPath: '/app/portfolio/add'
+      preLoaderRoute: typeof AppPortfolioAddRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+  AppPortfolioAddRoute: typeof AppPortfolioAddRoute
+  AppPortfolioIndexRoute: typeof AppPortfolioIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+  AppPortfolioAddRoute: AppPortfolioAddRoute,
+  AppPortfolioIndexRoute: AppPortfolioIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
