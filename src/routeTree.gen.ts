@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppTransactionsRouteImport } from './routes/app.transactions'
 import { Route as AppHoldingsSymbolRouteImport } from './routes/app.holdings.$symbol'
 import { Route as AppPortfolioIndexRouteImport } from './routes/app.portfolio.index'
 import { Route as AppPortfolioAddRouteImport } from './routes/app.portfolio.add'
@@ -29,6 +30,11 @@ const AppRoute = AppRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTransactionsRoute = AppTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHoldingsSymbolRoute = AppHoldingsSymbolRouteImport.update({
@@ -50,6 +56,7 @@ const AppPortfolioAddRoute = AppPortfolioAddRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/transactions': typeof AppTransactionsRoute
   '/app/': typeof AppIndexRoute
   '/app/holdings/$symbol': typeof AppHoldingsSymbolRoute
   '/app/portfolio/add': typeof AppPortfolioAddRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app/transactions': typeof AppTransactionsRoute
   '/app': typeof AppIndexRoute
   '/app/holdings/$symbol': typeof AppHoldingsSymbolRoute
   '/app/portfolio/add': typeof AppPortfolioAddRoute
@@ -66,6 +74,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/transactions': typeof AppTransactionsRoute
   '/app/': typeof AppIndexRoute
   '/app/holdings/$symbol': typeof AppHoldingsSymbolRoute
   '/app/portfolio/add': typeof AppPortfolioAddRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/app/transactions'
     | '/app/'
     | '/app/holdings/$symbol'
     | '/app/portfolio/add'
@@ -83,6 +93,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/app/transactions'
     | '/app'
     | '/app/holdings/$symbol'
     | '/app/portfolio/add'
@@ -91,6 +102,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
+    | '/app/transactions'
     | '/app/'
     | '/app/holdings/$symbol'
     | '/app/portfolio/add'
@@ -125,6 +137,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/transactions': {
+      id: '/app/transactions'
+      path: '/transactions'
+      fullPath: '/app/transactions'
+      preLoaderRoute: typeof AppTransactionsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/holdings/$symbol': {
       id: '/app/holdings/$symbol'
       path: '/holdings/$symbol'
@@ -150,6 +169,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppTransactionsRoute: typeof AppTransactionsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppHoldingsSymbolRoute: typeof AppHoldingsSymbolRoute
   AppPortfolioAddRoute: typeof AppPortfolioAddRoute
@@ -157,6 +177,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppTransactionsRoute: AppTransactionsRoute,
   AppIndexRoute: AppIndexRoute,
   AppHoldingsSymbolRoute: AppHoldingsSymbolRoute,
   AppPortfolioAddRoute: AppPortfolioAddRoute,
