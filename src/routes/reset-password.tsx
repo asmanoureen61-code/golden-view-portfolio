@@ -71,7 +71,7 @@ function ResetPasswordPage() {
   return (
     <AuthLayout
       title="Set a new password"
-      subtitle={ready ? "Choose a strong password you don't use elsewhere." : undefined}
+      {...(ready ? { subtitle: "Choose a strong password you don't use elsewhere." } : {})}
       footer={
         <Link to="/login" className="font-semibold text-primary hover:underline">
           Back to login
